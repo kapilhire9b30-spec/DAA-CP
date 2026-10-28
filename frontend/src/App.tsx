@@ -1,9 +1,10 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
+import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 
 // Club Pages
@@ -22,30 +23,20 @@ import { AlgorithmInsightsPage } from './pages/admin/AlgorithmInsightsPage';
 
 export const App: React.FC = () => {
   const { user } = useAuth();
+  const location = useLocation();
+  const isLanding = location.pathname === '/' || location.pathname === '/welcome';
 
   return (
-    <div className="app-container">
-      {user && <Navbar />}
+    <div className={`app-container ${isLanding ? 'is-landing' : ''}`}>
+      {!isLanding && user && <Navbar />}
 
-      <main className="main-content">
+      <main className={isLanding ? 'landing-main' : 'main-content'}>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          {/* Cinematic Landing Page */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/welcome" element={<LandingPage />} />
 
-          {/* Root redirect depending on authenticated role */}
-          <Route
-            path="/"
-            element={
-              user ? (
-                user.role === 'ADMIN' ? (
-                  <Navigate to="/admin/dashboard" replace />
-                ) : (
-                  <Navigate to="/club/dashboard" replace />
-                )
-              ) : (
-                <Navigate to="/login" replace />
-              )
-            }
-          />
+          <Route path="/login" element={<LoginPage />} />
 
           {/* Club Routes */}
           <Route

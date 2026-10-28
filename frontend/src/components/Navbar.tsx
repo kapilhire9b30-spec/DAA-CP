@@ -1,18 +1,22 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { LogoIcon, SunIcon, MoonIcon, MenuIcon, XIcon } from './Icons';
+import { LogoIcon, SunIcon, MoonIcon, MenuIcon, XIcon, ChevronDownIcon } from './Icons';
+import './Navbar.css';
 
 export const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Close menus on outside click
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -23,6 +27,33 @@ export const Navbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleOutsideClick);
   }, []);
 
+  // Close menus on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setUserDropdownOpen(false);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
+  }, [location.pathname]);
+
+  // Track window scroll for glass shrink micro-interaction
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleLogout = async () => {
     await logout();
     navigate('/login');
@@ -30,17 +61,23 @@ export const Navbar: React.FC = () => {
 
   if (!user) return null;
 
-  const initials = (user.username || 'U').substring(0, 2).toUpperCase();
+  // Determine avatar initials safely
+  const displayName = user.clubName || user.username || 'User';
+  const initials = (displayName.length >= 2 ? displayName.substring(0, 2) : displayName.substring(0, 1)).toUpperCase();
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-left">
-          <NavLink to={user.role === 'ADMIN' ? '/admin/dashboard' : '/club/dashboard'} className="navbar-brand">
+          <NavLink
+            to={user.role === 'ADMIN' ? '/admin/dashboard' : '/club/dashboard'}
+            className="navbar-brand"
+            aria-label="CampusAlloc Home"
+          >
             <LogoIcon size={30} />
             <div className="brand-text">
               <span className="brand-title">CampusAlloc</span>
-              <span className="brand-role-tag">{user.role}</span>
+              <span className="brand-badge-role">{user.role}</span>
             </div>
           </NavLink>
 
@@ -87,18 +124,24 @@ export const Navbar: React.FC = () => {
         </div>
 
         <div className="navbar-right">
-          {/* Theme Quick-toggle */}
+          {/* Sliding Pill Theme Switcher */}
           <button
             type="button"
-            className="btn-icon"
+            className="theme-pill-toggle"
             onClick={toggleTheme}
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
             title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
           >
-            {theme === 'light' ? <MoonIcon size={18} /> : <SunIcon size={18} />}
+            <div className="theme-pill-track">
+              <SunIcon size={12} />
+              <MoonIcon size={12} />
+            </div>
+            <div className="theme-pill-thumb">
+              {theme === 'light' ? <SunIcon size={13} /> : <MoonIcon size={13} />}
+            </div>
           </button>
 
-          {/* User Menu Dropdown */}
+          {/* User Profile Chip & Dropdown */}
           <div className="user-dropdown-container" ref={dropdownRef}>
             <button
               type="button"
@@ -110,17 +153,20 @@ export const Navbar: React.FC = () => {
             >
               <div className="user-avatar">{initials}</div>
               <div className="user-meta-label">
-                <span className="user-name">{user.username}</span>
-                {user.clubName && <span className="user-subtext">{user.clubName}</span>}
+                <span className="user-name">{displayName}</span>
+                <span className="user-role-badge-chip">
+                  {user.role === 'ADMIN' ? 'Administrator' : 'Club Lead'}
+                </span>
               </div>
+              <ChevronDownIcon size={14} className="user-chevron" />
             </button>
 
             {userDropdownOpen && (
               <div className="dropdown-card" role="menu">
                 <div className="dropdown-header">
-                  <div className="user-full-name">{user.username}</div>
-                  <div className="user-role-badge">
-                    {user.role} {user.clubName ? `• ${user.clubName}` : ''}
+                  <div className="dropdown-header-user">{user.username}</div>
+                  <div className="dropdown-header-sub">
+                    {user.clubName ? `${user.clubName} • ` : ''}{user.role}
                   </div>
                 </div>
 
@@ -157,22 +203,34 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
-          {/* Mobile hamburger button */}
+          {/* Mobile hamburger button - strictly hidden on desktop via CSS */}
           <button
             type="button"
-            className="mobile-menu-toggle btn-icon"
+            className="mobile-menu-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <XIcon size={22} /> : <MenuIcon size={22} />}
+            {mobileMenuOpen ? <XIcon size={20} /> : <MenuIcon size={20} />}
           </button>
         </div>
+
+        {/* Scroll Progress Accent */}
+        <div className="navbar-scroll-progress" />
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Backdrop */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer">
+        <div
+          className="mobile-drawer-overlay"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Drawer Sheet */}
+      {mobileMenuOpen && (
+        <div className="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
           <nav className="mobile-nav">
             {user.role === 'ADMIN' ? (
               <>
