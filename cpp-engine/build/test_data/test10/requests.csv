@@ -1,0 +1,2 @@
+id,clubId,title,date,start,end,attendance,facilities,tier,submittedAt,status,unallocatedReason
+1,Club1,Event 1,0,600,720,50,0,1,10,Pending,

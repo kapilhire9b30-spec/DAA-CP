@@ -1,0 +1,4 @@
+id,clubId,title,date,start,end,attendance,facilities,tier,submittedAt,status,unallocatedReason
+1,C1,Morning Keynote,0,540,660,200,3,4,10,Confirmed,
+2,C2,Afternoon Talk,0,700,800,150,3,3,20,Confirmed,
+3,C3,Seminar Event,0,540,660,50,1,2,30,Confirmed,

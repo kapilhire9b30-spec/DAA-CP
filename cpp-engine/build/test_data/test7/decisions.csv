@@ -1,0 +1,2 @@
+who,when,action,requestId,roomId,reason,details
+AdminUser,2026-10-28 23:07:27,ModifyApprove,1,102,Admin modified room and approved recommendation #1,Modified room from 101 to 102 [Notice: attendance 400 exceeds listed capacity 20 (informational)]

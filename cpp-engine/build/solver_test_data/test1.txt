@@ -1,0 +1,7 @@
+# Test 1 valid input
+CONFIG|1|12
+ROOM|101|Main Hall|100|3|1
+ROOM|102|Seminar Room|50|1|1
+REQ|1|ClubA|0|600|720|30|1|2|100
+REQ|2|ClubB|0|720|840|40|3|3|110
+BOOKING|1|101|500|550

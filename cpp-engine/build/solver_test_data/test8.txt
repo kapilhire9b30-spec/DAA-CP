@@ -1,0 +1,1 @@
+ROOM|101|Auditorium|West Wing|300|3|1

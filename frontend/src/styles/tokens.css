@@ -1,0 +1,151 @@
+/* ==========================================================================
+   CampusAlloc Design Tokens - Phase 4a Visual Restyle
+   STRICT BAN: Zero blue, indigo, violet, purple, or cyan. All greys are warm.
+   ========================================================================== */
+
+:root {
+  /* Core Light Palette */
+  --bg: #FAF7F2;
+  --surface: #FFFFFF;
+  --surface-2: #F3EEE6;
+  --surface-hover: #ECE5DA;
+  --border: #E3DACB;
+  --border-strong: #CDC2B0;
+  --text: #1F1C17;
+  --text-muted: #6B6458;
+  --text-subtle: #8C8477;
+  --primary: #1F6F54;
+  --primary-hover: #185A44;
+  --on-primary: #FFFFFF;
+  --accent: #C9831A;
+  --on-accent: #1F1C17;
+
+  /* Aliases for compatibility */
+  --bg-subtle: var(--surface-2);
+  --text-main: var(--text);
+  --border-focus: var(--accent);
+
+  /* Semantic Status Colors (WCAG AA compliant in both themes) */
+  --status-pending-bg: #EDE7DC;
+  --status-pending-text: #5C5446;
+  --status-pending-border: #DDD4C5;
+
+  --status-recommended-bg: #FBEBC8;
+  --status-recommended-text: #7A4A05;
+  --status-recommended-border: #F0D59B;
+
+  --status-confirmed-bg: #D9EEDF;
+  --status-confirmed-text: #15563B;
+  --status-confirmed-border: #B7DFCA;
+
+  --status-rejected-bg: #F6D9D2;
+  --status-rejected-text: #8A2E1B;
+  --status-rejected-border: #E8B6AC;
+
+  /* Schedule Room Palette (cycling order) */
+  --room-color-1: #B4532A; /* Auditorium terracotta */
+  --room-text-1: #FFFFFF;
+  --room-color-2: #1F6F54; /* Seminar Hall forest */
+  --room-text-2: #FFFFFF;
+  --room-color-3: #C9831A; /* Room A saffron */
+  --room-text-3: #1F1C17;
+  --room-color-4: #6F7A2C; /* Room B olive */
+  --room-text-4: #FFFFFF;
+  --room-color-5: #9C4221; /* Rust */
+  --room-text-5: #FFFFFF;
+  --room-color-6: #2C5E43; /* Deep forest */
+  --room-text-6: #FFFFFF;
+  --room-color-7: #A06815; /* Tawny amber */
+  --room-text-7: #FFFFFF;
+  --room-color-8: #556322; /* Deep olive */
+  --room-text-8: #FFFFFF;
+
+  /* Focus & Interactive */
+  --focus-ring: 2px solid var(--accent);
+  --focus-offset: 2px;
+  --selection-bg: #FBEBC8;
+  --selection-text: #1F1C17;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
+  /* Warm Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(31, 28, 23, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(31, 28, 23, 0.08), 0 1px 2px -1px rgba(31, 28, 23, 0.06);
+  --shadow-md: 0 4px 8px -1px rgba(31, 28, 23, 0.08), 0 2px 4px -2px rgba(31, 28, 23, 0.06);
+  --shadow-lg: 0 10px 18px -3px rgba(31, 28, 23, 0.1), 0 4px 6px -4px rgba(31, 28, 23, 0.06);
+  --shadow-xl: 0 20px 28px -5px rgba(31, 28, 23, 0.12), 0 8px 12px -6px rgba(31, 28, 23, 0.08);
+}
+
+[data-theme="dark"] {
+  /* Core Dark Palette */
+  --bg: #151310;
+  --surface: #1E1B17;
+  --surface-2: #26221D;
+  --surface-hover: #302B24;
+  --border: #37312A;
+  --border-strong: #4A4239;
+  --text: #F1ECE3;
+  --text-muted: #A89F90;
+  --text-subtle: #7A7265;
+  --primary: #4FB38A;
+  --primary-hover: #63C59D;
+  --on-primary: #151310;
+  --accent: #E0A24A;
+  --on-accent: #151310;
+
+  /* Aliases for compatibility */
+  --bg-subtle: var(--surface-2);
+  --text-main: var(--text);
+  --border-focus: var(--accent);
+
+  /* Semantic Status Colors (Tuned for dark theme, WCAG AA compliant) */
+  --status-pending-bg: #2B2620;
+  --status-pending-text: #D5CCC0;
+  --status-pending-border: #423B32;
+
+  --status-recommended-bg: #382A14;
+  --status-recommended-text: #F8CE84;
+  --status-recommended-border: #523E1E;
+
+  --status-confirmed-bg: #193427;
+  --status-confirmed-text: #74CFA1;
+  --status-confirmed-border: #244C39;
+
+  --status-rejected-bg: #381D18;
+  --status-rejected-text: #F49E8E;
+  --status-rejected-border: #542B24;
+
+  /* Schedule Room Palette (dark theme tuned for contrast) */
+  --room-color-1: #C2633A;
+  --room-text-1: #FFFFFF;
+  --room-color-2: #2E8568;
+  --room-text-2: #FFFFFF;
+  --room-color-3: #DB952E;
+  --room-text-3: #151310;
+  --room-color-4: #839139;
+  --room-text-4: #FFFFFF;
+  --room-color-5: #AD5230;
+  --room-text-5: #FFFFFF;
+  --room-color-6: #3A7758;
+  --room-text-6: #FFFFFF;
+  --room-color-7: #B87C24;
+  --room-text-7: #151310;
+  --room-color-8: #6B7C2F;
+  --room-text-8: #FFFFFF;
+
+  /* Focus & Interactive */
+  --selection-bg: #382A14;
+  --selection-text: #F8CE84;
+
+  /* Dark Warm Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 10px 18px -3px rgba(0, 0, 0, 0.65);
+  --shadow-xl: 0 20px 28px -5px rgba(0, 0, 0, 0.75);
+}

@@ -1,0 +1,3 @@
+id,clubId,title,date,start,end,attendance,facilities,tier,submittedAt,status,unallocatedReason
+1,Club1,Event 1,0,600,720,50,0,1,10,Recommended,
+2,Club2,Event 2,0,720,840,50,0,1,20,Recommended,

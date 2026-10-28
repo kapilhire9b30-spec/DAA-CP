@@ -1,0 +1,2 @@
+who,when,action,requestId,roomId,reason,details
+AdminUser,2026-10-28 23:07:26,Approve,1,101,Admin approval of recommendation #1,Approved proposal from algorithm Priority Greedy
